@@ -10,7 +10,7 @@
   "license": "ISC",
   "dependencies": {
     "buffertools": "^2.1.2",
-    "highland": "^1.25.4",
+    "highland": "caolan/highland#a281d48b3e0102394d5892eac639979b64a43470",
     "request": "^2.37.0",
     "require-env": "0.0.4"
   }

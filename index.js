@@ -25,9 +25,7 @@ _(request.get(env.require("SOURCE_URL")).pipe(new BinarySplitter()))
       return path;
     }
 
-    console.warn("Invalid line:", line);
-
-    return "";
+    throw new Error("Invalid line: " + line);
   })
   .filter(function(path) {
     return path.match(/\/toner\//);
@@ -35,10 +33,15 @@ _(request.get(env.require("SOURCE_URL")).pipe(new BinarySplitter()))
   .map(function(path) {
     return path.replace(/\/toner/, "");
   })
+  .errors(function(err, push) {
+    console.warn(err.stack);
+
+    push();
+  })
   .each(function(path) {
     request.head(env.require("TARGET_URL") + path, function(err, rsp, body) {
       if (err) {
-        console.error(err.message);
+        console.error(err);
         return;
       }
 
