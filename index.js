@@ -35,7 +35,7 @@ _(request.get(env.require("SOURCE_URL")).pipe(new BinarySplitter()))
   .map(function(path) {
     return path.replace(/\/toner/, "");
   })
-  .map(function(path) {
+  .each(function(path) {
     request.head(env.require("TARGET_URL") + path, function(err, rsp, body) {
       if (err) {
         console.error(err.message);
@@ -49,7 +49,4 @@ _(request.get(env.require("SOURCE_URL")).pipe(new BinarySplitter()))
 
       console.log("%s: %d", path, rsp.statusCode);
     });
-
-    return "";
-  })
-  .pipe(process.stdout);
+  });
