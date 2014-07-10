@@ -1,0 +1,17 @@
+{
+  "name": "kevlar",
+  "version": "0.0.0",
+  "description": "Synthetic load generation",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "buffertools": "^2.1.2",
+    "highland": "^1.25.4",
+    "request": "^2.37.0",
+    "require-env": "0.0.4"
+  }
+}
