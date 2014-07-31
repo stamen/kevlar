@@ -5,6 +5,15 @@ Synthetic load generation.
 This assumes a source (`SOURCE_URL`) that outputs syslog lines (from Fastly, in
 this case) and a target (`TARGET_URL`) to send matching requests to.
 
+## Configuration + Running
+
+```bash
+npm install
+echo SOURCE_URL=... >> .env
+echo TARGET_URL=... >> .env
+foreman run node index.js
+```
+
 ## Notes
 
 This is currently intended for use with Toner and Fastly syslog output, but
