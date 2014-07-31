@@ -28,10 +28,7 @@ _(request.get(env.require("SOURCE_URL")).pipe(new BinarySplitter()))
     throw new Error("Invalid line: " + line);
   })
   .filter(function(path) {
-    return path.match(/\/toner\//);
-  })
-  .map(function(path) {
-    return path.replace(/\/toner/, "");
+    return path.match(/^\/toner/);
   })
   .errors(function(err, push) {
     console.warn(err.stack);
