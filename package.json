@@ -2,16 +2,18 @@
   "name": "kevlar",
   "version": "0.0.0",
   "description": "Synthetic load generation",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+  "bin": "index.js",
+  "author": "Seth Fitzsimmons <seth@mojodna.net>",
+  "preferGlobal": true,
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/stamen/kevlar.git"
   },
-  "author": "",
   "license": "ISC",
   "dependencies": {
     "buffertools": "^2.1.2",
     "highland": "^1.26.3",
-    "request": "^2.37.0",
-    "require-env": "0.0.4"
+    "nopt": "^3.0.1",
+    "request": "^2.37.0"
   }
 }
