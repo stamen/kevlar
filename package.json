@@ -1,6 +1,6 @@
 {
   "name": "kevlar",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Synthetic load generation",
   "bin": "index.js",
   "author": "Seth Fitzsimmons <seth@mojodna.net>",
