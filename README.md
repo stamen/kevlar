@@ -29,6 +29,14 @@ perl -pe 's/^.+GET (\/[^\/]+\/[\w\/\.]+).+$/\1/' \
 kevlar -t http://example.com
 ```
 
+If you see `EMFILE` errors, `kevlar`'s intended concurrency is being limited by
+the number of available file descriptors (often 256 by default). To increase
+the limit, use:
+
+```bash
+ulimit -n 1024
+```
+
 ## Notes
 
 `kevlar` currently makes `HEAD` requests in order to reduce bandwidth
