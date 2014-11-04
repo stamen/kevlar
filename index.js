@@ -13,16 +13,19 @@ var BinarySplitter = require("./lib/binary-splitter");
 http.globalAgent.maxSockets = Infinity;
 
 var knownOpts = {
-      "target": url
+      "target": url,
+      "request": String,
+      "verbose": Boolean
     },
     shortHands = {
-      "t": ["--target"]
+      "t": ["--target"],
+      "X": ["--request"],
+      "v": ["--verbose"]
     },
     args = nopt(knownOpts, shortHands);
 
 if (!args.target) {
   console.log("Usage: kevlar -t <target url>");
-
   process.exit(1);
 }
 
@@ -35,17 +38,23 @@ _(process.stdin.pipe(new BinarySplitter()))
     push();
   })
   .each(function(path) {
-    request.head(url.resolve(args.target, path), function(err, rsp, body) {
+
+    var method = 'head',
+        tile_url = args.target + path;
+
+    if (args.request) {
+      method = args.request.toLowerCase();
+    }
+
+
+    request[method](tile_url, function(err, rsp, body) {
       if (err) {
-        console.error(err);
+        console.log("ERROR %s: (%s)", tile_url,  err);
         return;
       }
 
-      if (rsp.statusCode === 200) {
-        // console.log("%s: %s", path, rsp.headers["x-response-time"], rsp.headers["x-cache"], rsp.headers["x-cache-hits"]);
-        return;
+      if (args.verbose) {
+        console.log("%s: %d", tile_url, rsp.statusCode);
       }
-
-      console.log("%s: %d", path, rsp.statusCode);
     });
   });
