@@ -39,6 +39,6 @@ ulimit -n 1024
 
 ## Notes
 
-`kevlar` currently makes `HEAD` requests by default (user -X option to change) in order to reduce bandwidth
+`kevlar` currently makes `HEAD` requests by default (use -X option to change the method) in order to reduce bandwidth
 utilization (with the knowledge that in this case the target will perform all
 necessary work in response).
