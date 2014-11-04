@@ -4,6 +4,8 @@
 var http = require("http"),
     url = require("url");
 
+http.globalAgent.maxSockets = 20
+
 var _ = require("highland"),
     nopt = require("nopt"),
     request = require("request");
@@ -49,7 +51,7 @@ _(process.stdin.pipe(new BinarySplitter()))
 
     request[method](tile_url, function(err, rsp, body) {
       if (err) {
-        console.log("ERROR %s: (%s)", tile_url,  err);
+        console.error("ERROR %s: (%s)", tile_url,  err);
         return;
       }
 
