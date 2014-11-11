@@ -4,8 +4,6 @@
 var http = require("http"),
     url = require("url");
 
-http.globalAgent.maxSockets = 20
-
 var _ = require("highland"),
     nopt = require("nopt"),
     request = require("request");
