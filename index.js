@@ -54,7 +54,7 @@ _(process.stdin.pipe(new BinarySplitter()))
       }
 
       if (args.verbose) {
-        console.log("%s: %d", tile_url, rsp.statusCode);
+        console.log("%s: %d", tile_url, rsp.statusCode, rsp.headers);
       }
     });
   });
