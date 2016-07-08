@@ -40,21 +40,20 @@ _(process.stdin.pipe(new BinarySplitter()))
   .each(function(path) {
 
     var method = 'head',
-        tile_url = args.target + path;
+        tileUrl = args.target.slice(0, -1) + path;
 
     if (args.request) {
       method = args.request.toLowerCase();
     }
 
-
-    request[method](tile_url, function(err, rsp, body) {
+    request[method](tileUrl, function(err, rsp, body) {
       if (err) {
-        console.error("ERROR %s: (%s)", tile_url,  err);
+        console.error("ERROR %s: (%s)", tileUrl,  err);
         return;
       }
 
       if (args.verbose) {
-        console.log("%s: %d", tile_url, rsp.statusCode, rsp.headers);
+        console.log("%s: %d", tileUrl, rsp.statusCode, rsp.headers);
       }
     });
   });
