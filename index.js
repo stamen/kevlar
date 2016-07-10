@@ -13,11 +13,13 @@ var BinarySplitter = require("./lib/binary-splitter");
 http.globalAgent.maxSockets = Infinity;
 
 var knownOpts = {
+      "concurrency": Number,
       "target": url,
       "request": String,
       "verbose": Boolean
     },
     shortHands = {
+      "c": ["--concurrency"],
       "t": ["--target"],
       "X": ["--request"],
       "v": ["--verbose"]
@@ -37,8 +39,7 @@ _(process.stdin.pipe(new BinarySplitter()))
 
     push();
   })
-  .each(function(path) {
-
+  .map(function(path) {
     var method = 'head',
         tileUrl = args.target.slice(0, -1) + path;
 
@@ -46,14 +47,36 @@ _(process.stdin.pipe(new BinarySplitter()))
       method = args.request.toLowerCase();
     }
 
-    request[method](tileUrl, function(err, rsp, body) {
-      if (err) {
-        console.error("ERROR %s: (%s)", tileUrl,  err);
-        return;
-      }
+    return _(function(push, next) {
+      request[method]({
+        url: tileUrl,
+        time: true
+      }, function(err, rsp, body) {
+        if (err) {
+          console.error("ERROR %s: (%s)", tileUrl,  err);
+          push(err, data);
+        }
 
-      if (args.verbose) {
-        console.log("%s: %d", tileUrl, rsp.statusCode, rsp.headers);
-      }
+        console.log("[%d] %d %dms\t%s\t%s", rsp.request._redirect.redirectsFollowed, rsp.statusCode, rsp.elapsedTime, path, rsp.headers["cache-control"]);
+
+        if (rsp.headers["cache-control"] === "public, max-age=0") {
+          console.warn(path);
+        }
+
+        if (rsp.statusCode === 500) {
+          console.warn(path);
+          console.log(rsp.headers);
+        }
+
+        if (args.verbose) {
+          console.log("%s: %d", tileUrl, rsp.statusCode, rsp.headers);
+        }
+
+        return push(null, _.nil);
+      });
     });
+  })
+  .parallel(args.concurrency)
+  .done(function() {
+    // console.log("Done");
   });
